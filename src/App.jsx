@@ -2,18 +2,15 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import EditableTimer from "./component/EditableTimer";
 import ToggleableTimerForm from "./component/ToggleableTimerForm";
-
 const App = (props) => {
   const [timers, setTimers] = useState([
     {
-      id: 0,
       title: "Learn A",
       project: "Internship",
       eslapsed: 123000,
       isRunning: true,
     },
     {
-      id: 1,
       title: "Learn B",
       project: "Internship",
       eslapsed: 180000,
@@ -62,25 +59,46 @@ const App = (props) => {
     setTimers(updatesave);
   };
 
+  const handleCreateTimer = (title, project) => {
+    const timer = {
+      title: title,
+      project: project,
+      eslapsed: 0,
+      isRunning: true,
+    };
+    setTimers([timer, ...timers]);
+  };
+
+  const handleRemoveTimer = (key) => {
+    const removeTimers = timers.filter((timer, index) =>
+      index === key ? false : true
+    );
+    setTimers(removeTimers);
+  };
   return (
     <div className="app">
+      <div className="img"></div>
       <h1>Timers</h1>
-
-      <ToggleableTimerForm />
-
-      {timers.map((timer, index) => {
-        return (
-          <EditableTimer
-            key={index}
-            index={index}
-            title={timer.title}
-            project={timer.project}
-            eslapsed={timer.eslapsed}
-            onStart={handleStartClick}
-            onSave={handleSaveClick}
-          />
-        );
-      })}
+      <ToggleableTimerForm onCreate={handleCreateTimer} />
+      <div>
+        {timers.map((timer, index) => {
+          return (
+            <div className="timerContainer">
+              <EditableTimer
+                key={index}
+                index={index}
+                title={timer.title}
+                project={timer.project}
+                eslapsed={timer.eslapsed}
+                isRunning={timer.isRunning}
+                onStart={handleStartClick}
+                onSave={handleSaveClick}
+                onRemove={handleRemoveTimer}
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

@@ -2,12 +2,12 @@
   height: 40px;
   border: none;
   min-width: 96px;
-  border-radius: 4px;
+  border-radius: 10px;
   outline: none;
-  color: white;
+  color: rgb(16, 20, 5);
   font-weight: 500;
   letter-spacing: 0.2px;
-  font-size: 16px;
+  font: small-caps 18px Arial, Helvetica, sans-serif;
   transition: 0.2s;
 }
 
@@ -34,7 +34,9 @@
 .button--warning {
   background-color: hsl(48, 91%, 50%);
 }
-
+.button--stopping {
+  background-color: rgb(123, 138, 138);
+}
 .button--full {
   width: 100%;
 }

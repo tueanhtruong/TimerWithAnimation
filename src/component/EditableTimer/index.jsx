@@ -7,8 +7,10 @@ const EditableTimer = ({
   title,
   project,
   eslapsed,
+  isRunning,
   onStart,
   onSave,
+  onRemove,
 }) => {
   const [isEdit, setEdit] = useState(false);
   const handleEditClick = () => {
@@ -21,7 +23,9 @@ const EditableTimer = ({
     onSave(index, title, project);
     setEdit(!isEdit);
   };
-
+  const handleRemoveTimer = () => {
+    onRemove(index);
+  };
   if (isEdit)
     return (
       <TimerForm
@@ -38,8 +42,10 @@ const EditableTimer = ({
       title={title}
       project={project}
       eslapsed={eslapsed}
+      isRunning={isRunning}
       onEdit={handleEditClick}
       onStart={handleStartClick}
+      onRemove={handleRemoveTimer}
     />
   );
 };

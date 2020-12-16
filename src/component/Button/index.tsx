@@ -1,15 +1,15 @@
-import React from 'react';
-import './style.css';
+import React from "react";
+import "./style.css";
 
 const Button: React.FC<Props> = ({
   isFull,
   title,
-  variant = 'primary',
+  variant = "primary",
   ...props
 }) => {
   return (
     <button
-      className={`button button--${variant} ${isFull ? 'button--full' : ''}`}
+      className={`button button--${variant} ${isFull ? "button--full" : ""}`}
       {...props}
     >
       {title}
@@ -22,7 +22,7 @@ type Props = React.DetailedHTMLProps<
   HTMLButtonElement
 > & {
   isFull: boolean;
-  variant: 'primary' | 'danger' | 'warning';
+  variant: "primary" | "danger" | "warning" | "stopping";
 };
 
 export default Button;
