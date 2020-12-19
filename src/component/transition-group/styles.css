@@ -1,0 +1,13 @@
+.transitiongroup-main {
+  height: auto;
+}
+
+.transitiongroup-item {
+  overflow: hidden;
+  width: 100%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+}

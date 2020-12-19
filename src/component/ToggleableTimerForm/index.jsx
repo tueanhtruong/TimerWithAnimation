@@ -1,6 +1,9 @@
 import { useState } from "react";
 import Button from "../Button";
 import TimerForm from "../TimerForm";
+import { useTransition, animated } from "react-spring";
+import "./style.css";
+//import Appcss from "../transition-group/index";
 
 const ToggleableTimerForm = (props) => {
   const [isEdit, setEdit] = useState(false);
@@ -28,12 +31,111 @@ const ToggleableTimerForm = (props) => {
     setEdit(!isEdit);
   };
 
-  if (isEdit)
-    return (
-      <TimerForm onCancel={handleClickButton} onSave={handleCreateTimer} />
-    );
+  const transitions = useTransition(isEdit, null, {
+    from: {
+      transform: "translate3d(0%,-30%,0)",
+      opacity: 0,
+      height: 0,
+    },
+    enter: (item) => async (next, cancel) => {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      await next({
+        transform: "translate3d(0,0px,0)",
+        opacity: 1,
+        height: isEdit ? 230 : 50,
+      });
+    },
+    leave: { transform: "translate3d(0%,-30%,0)", opacity: 0, height: 0 },
+  });
 
-  return <Button title={icon} onClick={handleClickButton} />;
+  return transitions.map(({ item, key, props }) =>
+    item ? (
+      <animated.div style={props}>
+        <TimerForm onCancel={handleClickButton} onSave={handleCreateTimer} />
+      </animated.div>
+    ) : (
+      <animated.div style={props}>
+        <Button title={icon} onClick={handleClickButton} />
+      </animated.div>
+    )
+  );
+
+  // return (
+  //   <div className="transitiongroup-main">
+  //     <Transition
+  //       native
+  //       items={isEdit}
+  //       from={{ opacity: 0, height: 0, transform: "scale(1)" }}
+  //       enter={[{ opacity: 1, height: "230px" }, { transform: "scale(1)" }]}
+  //       leave={[
+  //         { transform: "scale(1.1)", opacity: 0.5 },
+  //         { opacity: 0 },
+  //         { height: 0 },
+  //       ]}
+  //     >
+  //       {(item) =>
+  //         item
+  //           ? (props) => (
+  //               <animated.div style={props}>
+  //                 <TimerForm
+  //                   onCancel={handleClickButton}
+  //                   onSave={handleCreateTimer}
+  //                 />
+  //               </animated.div>
+  //             )
+  //           : (props) => (
+  //               <animated.div style={props}>
+  //                 <Button title={icon} onClick={handleClickButton} />
+  //               </animated.div>
+  //             )
+  //       }
+  //     </Transition>
+  //     <Appcss />
+  //   </div>
+  // );
+
+  // return (
+  //   <div className="transitiongroup-main">
+  //     <Transition
+  //       native
+  //       items={isEdit}
+  //       from={{ opacity: 0, height: 0, transform: "scale(1)" }}
+  //       enter={[
+  //         { opacity: 1, height: isEdit ? "50px" : "230px" },
+  //         { transform: "scale(1)" },
+  //       ]}
+  //       leave={[
+  //         { transform: "scale(1.1)", opacity: 0.5 },
+  //         { opacity: 0 },
+  //         { height: 0 },
+  //       ]}
+  //     >
+  //       {(item) =>
+  //         item
+  //           ? (props) => (
+  //               <animated.div style={props}>
+  //                 <TimerForm
+  //                   onCancel={handleClickButton}
+  //                   onSave={handleCreateTimer}
+  //                 />
+  //               </animated.div>
+  //             )
+  //           : (props) => (
+  //               <animated.div style={props}>
+  //                 <Button title={icon} onClick={handleClickButton} />
+  //               </animated.div>
+  //             )
+  //       }
+  //     </Transition>
+  //   </div>
+  // );
+
+  // if (isEdit)
+  //   return (
+  //     <TimerForm onCancel={handleClickButton} onSave={handleCreateTimer} />
+  //   );
+
+  // return <Button title={icon} onClick={handleClickButton} />;
 };
 
 export default ToggleableTimerForm;

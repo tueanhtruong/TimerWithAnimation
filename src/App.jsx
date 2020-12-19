@@ -2,15 +2,19 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import EditableTimer from "./component/EditableTimer";
 import ToggleableTimerForm from "./component/ToggleableTimerForm";
+import ids from "short-id";
+
 const App = (props) => {
   const [timers, setTimers] = useState([
     {
+      id: "hjdkasd",
       title: "Learn A",
       project: "Internship",
       eslapsed: 123000,
       isRunning: true,
     },
     {
+      id: "bdsakbd",
       title: "Learn B",
       project: "Internship",
       eslapsed: 180000,
@@ -35,8 +39,8 @@ const App = (props) => {
   }, [timers]);
 
   const handleStartClick = (key) => {
-    const updatestart = timers.map((timer, index) => {
-      return index !== key
+    const updatestart = timers.map((timer) => {
+      return timer.id !== key
         ? timer
         : {
             ...timer,
@@ -47,8 +51,8 @@ const App = (props) => {
   };
 
   const handleSaveClick = (key, title, project) => {
-    const updatesave = timers.map((timer, index) => {
-      return index !== key
+    const updatesave = timers.map((timer) => {
+      return timer.id !== key
         ? timer
         : {
             ...timer,
@@ -61,6 +65,7 @@ const App = (props) => {
 
   const handleCreateTimer = (title, project) => {
     const timer = {
+      id: ids.generate(),
       title: title,
       project: project,
       eslapsed: 0,
@@ -70,8 +75,8 @@ const App = (props) => {
   };
 
   const handleRemoveTimer = (key) => {
-    const removeTimers = timers.filter((timer, index) =>
-      index === key ? false : true
+    const removeTimers = timers.filter((timer) =>
+      timer.id === key ? false : true
     );
     setTimers(removeTimers);
   };
@@ -81,12 +86,12 @@ const App = (props) => {
       <h1>Timers</h1>
       <ToggleableTimerForm onCreate={handleCreateTimer} />
       <div>
-        {timers.map((timer, index) => {
+        {timers.map((timer) => {
           return (
             <div className="timerContainer">
               <EditableTimer
-                key={index}
-                index={index}
+                key={timer.id}
+                index={timer.id}
                 title={timer.title}
                 project={timer.project}
                 eslapsed={timer.eslapsed}
@@ -98,6 +103,37 @@ const App = (props) => {
             </div>
           );
         })}
+        {/* {
+          <Transition
+            native
+            items={timers}
+            from={{ opacity: 0, height: 0, transform: "scale(0.8)" }}
+            enter={[{ opacity: 1, height: "230px" }, { transform: "scale(1)" }]}
+            leave={[
+              { transform: "scale(0.8)", opacity: 0.5 },
+              { opacity: 0 },
+              { height: 0 },
+            ]}
+          >
+            {(timer) => (props) => (
+              <div style={props}>
+                {
+                  <EditableTimer
+                    key={timer.id}
+                    index={timer.id}
+                    title={timer.title}
+                    project={timer.project}
+                    eslapsed={timer.eslapsed}
+                    isRunning={timer.isRunning}
+                    onStart={handleStartClick}
+                    onSave={handleSaveClick}
+                    onRemove={handleRemoveTimer}
+                  />
+                }
+              </div>
+            )}
+          </Transition>
+        } */}
       </div>
     </div>
   );
