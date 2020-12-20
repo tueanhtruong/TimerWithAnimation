@@ -3,7 +3,6 @@ import Button from "../Button";
 import TimerForm from "../TimerForm";
 import { useTransition, animated } from "react-spring";
 import "./style.css";
-//import Appcss from "../transition-group/index";
 
 const ToggleableTimerForm = (props) => {
   const [isEdit, setEdit] = useState(false);
@@ -13,7 +12,7 @@ const ToggleableTimerForm = (props) => {
       width="30"
       height="30"
       fill="currentColor"
-      class="bi bi-calendar-plus-fill"
+      className="bi bi-calendar-plus-fill"
       viewBox="0 0 16 16"
     >
       <path

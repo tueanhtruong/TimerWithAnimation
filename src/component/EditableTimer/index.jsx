@@ -32,10 +32,9 @@ const EditableTimer = ({
     from: {
       opacity: 0,
     },
-    enter: (item) => async (next, cancel) => {
-      await next({ opacity: 1 });
-    },
+    enter: { opacity: 1 },
     leave: { opacity: 0, height: 0 },
+    config: { duration: 500 },
   });
 
   return transitions.map(({ item, key, props }) =>

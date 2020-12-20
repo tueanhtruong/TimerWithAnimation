@@ -3,6 +3,7 @@ import "./App.css";
 import EditableTimer from "./component/EditableTimer";
 import ToggleableTimerForm from "./component/ToggleableTimerForm";
 import ids from "short-id";
+import { Transition } from "react-spring/renderprops";
 
 const App = (props) => {
   const [timers, setTimers] = useState([
@@ -17,7 +18,7 @@ const App = (props) => {
       id: "bdsakbd",
       title: "Learn B",
       project: "Internship",
-      eslapsed: 180000,
+      eslapsed: 3780000,
       isRunning: false,
     },
   ]);
@@ -82,58 +83,50 @@ const App = (props) => {
   };
   return (
     <div className="app">
-      <div className="img"></div>
       <h1>Timers</h1>
       <ToggleableTimerForm onCreate={handleCreateTimer} />
       <div>
-        {timers.map((timer) => {
-          return (
-            <div className="timerContainer">
-              <EditableTimer
-                key={timer.id}
-                index={timer.id}
-                title={timer.title}
-                project={timer.project}
-                eslapsed={timer.eslapsed}
-                isRunning={timer.isRunning}
-                onStart={handleStartClick}
-                onSave={handleSaveClick}
-                onRemove={handleRemoveTimer}
-              />
-            </div>
-          );
-        })}
-        {/* {
+        {
           <Transition
-            native
             items={timers}
-            from={{ opacity: 0, height: 0, transform: "scale(0.8)" }}
-            enter={[{ opacity: 1, height: "230px" }, { transform: "scale(1)" }]}
-            leave={[
-              { transform: "scale(0.8)", opacity: 0.5 },
-              { opacity: 0 },
-              { height: 0 },
-            ]}
+            keys={(item) => item.id}
+            from={{
+              transform: "translate3d(-250px,0,20px)",
+              opacity: 0,
+              height: 0,
+              margin: 0,
+            }}
+            enter={{
+              transform: "translate3d(0,0px,0)",
+              opacity: 1,
+              height: 230,
+              margin: 10,
+            }}
+            leave={{
+              transform: "translate3d(250px,0px,20px)",
+              opacity: 0,
+              height: 0,
+              margin: 0,
+            }}
+            config={{ duration: 500 }}
           >
-            {(timer) => (props) => (
-              <div style={props}>
-                {
-                  <EditableTimer
-                    key={timer.id}
-                    index={timer.id}
-                    title={timer.title}
-                    project={timer.project}
-                    eslapsed={timer.eslapsed}
-                    isRunning={timer.isRunning}
-                    onStart={handleStartClick}
-                    onSave={handleSaveClick}
-                    onRemove={handleRemoveTimer}
-                  />
-                }
+            {(item) => (props) => (
+              <div className="timerContainer" style={props}>
+                <EditableTimer
+                  key={item.id}
+                  index={item.id}
+                  title={item.title}
+                  project={item.project}
+                  eslapsed={item.eslapsed}
+                  isRunning={item.isRunning}
+                  onStart={handleStartClick}
+                  onSave={handleSaveClick}
+                  onRemove={handleRemoveTimer}
+                />
               </div>
             )}
           </Transition>
-        } */}
+        }
       </div>
     </div>
   );
